@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Drabs Studio — apps and games. Download SteadyFocus, BestFitnessPal, BlockBuster, EarnPulse, and HoverRace. Need an app built? Let’s talk." />
+  <title>Drabs Studio</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Drabs Studio" />
+  <meta property="og:description" content="Apps & games — plus custom app development." />
+  <meta property="og:type" content="website" />
+
+  <!-- Optional: set a favicon (you can swap this later) -->
+  <link rel="icon" type="image/webp" href="assets/hoverrace.webp" />
+
+  <style>
+    :root{
+      --bg:#070A12;
+      --panel:#0C1020;
+      --panel2:#0B1229;
+      --text:#EAF0FF;
+      --muted:#A9B4D6;
+      --brand1:#55C2FF;
+      --brand2:#7C5CFF;
+      --brand3:#22E6A8;
+      --danger:#FF4D5E;
+      --ring: rgba(124,92,255,.35);
+      --border: rgba(255,255,255,.10);
+      --shadow: 0 14px 50px rgba(0,0,0,.45);
+      --radius: 22px;
+      --radius2: 28px;
+      --max: 1080px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--font);
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(85,194,255,.25), transparent 55%),
+        radial-gradient(800px 520px at 85% 0%, rgba(124,92,255,.25), transparent 50%),
+        radial-gradient(900px 560px at 70% 90%, rgba(34,230,168,.18), transparent 55%),
+        linear-gradient(180deg, #050710 0%, #070A12 55%, #050710 100%);
+      color:var(--text);
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:22px 18px 72px;}
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 16px;
+      border:1px solid var(--border);
+      background:rgba(12,16,32,.55);
+      backdrop-filter: blur(10px);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      position: sticky; top: 14px; z-index: 50;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+    }
+    .logo{
+      width:40px; height:40px; border-radius:14px;
+      background: linear-gradient(135deg, var(--brand1), var(--brand2));
+      display:grid; place-items:center;
+      box-shadow: 0 10px 25px rgba(124,92,255,.25);
+      border: 1px solid rgba(255,255,255,.18);
+    }
+    .logo svg{filter: drop-shadow(0 6px 10px rgba(0,0,0,.35));}
+    .brand h1{
+      margin:0; font-size:16px; letter-spacing:.3px;
+      line-height:1.1;
+    }
+    .brand p{margin:2px 0 0; font-size:12px; color:var(--muted)}
+    .navlinks{display:flex; gap:10px; align-items:center}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px; border-radius: 999px;
+      border:1px solid var(--border);
+      background: rgba(11,18,41,.5);
+      color: var(--text);
+      font-size: 13px;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+      user-select:none;
+    }
+    .pill:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.20); background: rgba(11,18,41,.75);}
+    .pill.primary{
+      border-color: rgba(124,92,255,.55);
+      background: linear-gradient(135deg, rgba(124,92,255,.30), rgba(85,194,255,.18));
+      box-shadow: 0 0 0 6px rgba(124,92,255,.10);
+    }
+
+    .hero{
+      margin-top:18px;
+      padding:34px 22px;
+      border-radius: var(--radius2);
+      border:1px solid var(--border);
+      background:
+        radial-gradient(600px 320px at 15% 15%, rgba(85,194,255,.25), transparent 60%),
+        radial-gradient(600px 320px at 85% 20%, rgba(124,92,255,.25), transparent 60%),
+        linear-gradient(180deg, rgba(12,16,32,.65), rgba(12,16,32,.40));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(900px 250px at 50% -20%, rgba(255,255,255,.10), transparent 65%);
+      pointer-events:none;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
+      align-items:center;
+    }
+    @media (max-width: 860px){
+      .heroGrid{grid-template-columns:1fr; gap:16px;}
+      .nav{position:relative; top:auto;}
+      .navlinks{flex-wrap:wrap; justify-content:flex-end}
+    }
+    .kicker{
+      display:inline-flex; gap:10px; align-items:center;
+      padding:7px 10px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(11,18,41,.55);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      width: fit-content;
+    }
+    .dot{
+      width:8px; height:8px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand3), var(--brand1));
+      box-shadow: 0 0 0 6px rgba(34,230,168,.10);
+    }
+    .hero h2{
+      margin:14px 0 10px;
+      font-size: 44px;
+      line-height: 1.05;
+      letter-spacing: -0.8px;
+    }
+    @media (max-width: 520px){ .hero h2{font-size: 36px;} }
+    .hero p{
+      margin:0 0 16px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+      max-width: 62ch;
+    }
+    .ctaRow{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:12px 14px;
+      border-radius: 14px;
+      border:1px solid var(--border);
+      background: rgba(11,18,41,.50);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 14px;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+      box-shadow: 0 10px 25px rgba(0,0,0,.22);
+    }
+    .btn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(11,18,41,.75);}
+    .btn.primary{
+      border-color: rgba(85,194,255,.55);
+      background: linear-gradient(135deg, rgba(85,194,255,.28), rgba(124,92,255,.22));
+      box-shadow: 0 0 0 6px rgba(85,194,255,.10), 0 12px 32px rgba(0,0,0,.32);
+    }
+
+    .heroCard{
+      border-radius: var(--radius2);
+      border:1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(11,18,41,.55), rgba(11,18,41,.32));
+      padding: 16px;
+      box-shadow: 0 16px 45px rgba(0,0,0,.32);
+    }
+    .miniStats{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    .stat{
+      border-radius: 18px;
+      padding: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(12,16,32,.45);
+    }
+    .stat .big{
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+    .stat .small{margin-top:6px; color:var(--muted); font-size: 12px; line-height:1.4}
+    .stat .tag{
+      display:inline-flex;
+      padding:4px 8px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      font-size: 11px;
+      color: var(--muted);
+      margin-top:10px;
+      background: rgba(11,18,41,.50);
+    }
+
+    .section{
+      margin-top: 22px;
+      padding: 18px;
+      border-radius: var(--radius2);
+      border:1px solid var(--border);
+      background: rgba(12,16,32,.35);
+      box-shadow: 0 10px 35px rgba(0,0,0,.20);
+    }
+    .sectionHeader{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:12px; flex-wrap:wrap;
+      margin-bottom: 12px;
+    }
+    .sectionHeader h3{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: .2px;
+    }
+    .sectionHeader p{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+      max-width: 65ch;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    @media (max-width: 900px){ .grid{grid-template-columns: repeat(2, 1fr);} }
+    @media (max-width: 560px){ .grid{grid-template-columns: 1fr;} }
+
+    .card{
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(11,18,41,.55), rgba(11,18,41,.25));
+      padding: 14px;
+      position: relative;
+      overflow:hidden;
+      transition: transform .15s ease, border-color .15s ease;
+      min-height: 150px;
+    }
+    .card:hover{transform: translateY(-2px); border-color: rgba(255,255,255,.18);}
+    .card:before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(380px 180px at 25% 0%, rgba(85,194,255,.16), transparent 60%),
+                  radial-gradient(380px 180px at 90% 10%, rgba(124,92,255,.14), transparent 60%);
+      pointer-events:none;
+    }
+    .cardTop{
+      display:flex; align-items:center; gap:12px;
+      position:relative;
+    }
+    .appIconWrap{
+      width:52px; height:52px;
+      border-radius: 16px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 16px 30px rgba(0,0,0,.25);
+      flex:0 0 auto;
+      display:grid;
+      place-items:center;
+    }
+    .appIconImg{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+    }
+
+    .appTitle{margin:0; font-size: 16px; font-weight: 800; letter-spacing:.2px;}
+    .pkg{margin:4px 0 0; color: var(--muted); font-size: 12px;}
+    .desc{margin:10px 0 14px; color: var(--muted); font-size: 13px; line-height: 1.5; position:relative;}
+    .cardActions{display:flex; gap:10px; flex-wrap:wrap; position:relative;}
+    .linkBtn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 11px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(12,16,32,.45);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .linkBtn:hover{border-color: rgba(255,255,255,.20);}
+    .linkBtn.play{
+      border-color: rgba(34,230,168,.35);
+      background: linear-gradient(135deg, rgba(34,230,168,.18), rgba(85,194,255,.12));
+    }
+    .linkBtn.secondary{
+      border-color: rgba(124,92,255,.35);
+      background: linear-gradient(135deg, rgba(124,92,255,.16), rgba(85,194,255,.10));
+    }
+
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(11,18,41,.45);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .callout{
+      margin-top: 12px;
+      border-radius: 22px;
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(11,18,41,.35);
+      padding: 14px;
+      color: var(--muted);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .hire{
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: var(--radius2);
+      border:1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(650px 260px at 10% 0%, rgba(34,230,168,.18), transparent 60%),
+        radial-gradient(650px 260px at 90% 20%, rgba(85,194,255,.18), transparent 60%),
+        linear-gradient(180deg, rgba(11,18,41,.58), rgba(11,18,41,.30));
+      box-shadow: var(--shadow);
+    }
+    .hireGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+    @media (max-width: 860px){ .hireGrid{grid-template-columns:1fr;} }
+    .hire h3{margin:0 0 6px; font-size: 22px; letter-spacing: -.2px;}
+    .hire p{margin:0; color:var(--muted); line-height:1.6}
+    .bullet{
+      margin: 12px 0 0;
+      display:grid; gap:8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .bullet span{
+      display:flex; gap:10px; align-items:flex-start;
+      padding: 10px 11px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(12,16,32,.35);
+    }
+    .check{
+      width:18px; height:18px; flex:0 0 auto; margin-top:1px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--brand3), var(--brand1));
+      display:grid; place-items:center;
+      box-shadow: 0 0 0 5px rgba(34,230,168,.10);
+    }
+
+    .footer{
+      margin-top: 18px;
+      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 14px 6px;
+      opacity: .95;
+    }
+    .divider{
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+      margin: 14px 0 10px;
+    }
+    .smallNote{color:var(--muted); font-size:12px; line-height:1.55}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <!-- simple "D" mark -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M7 6h6.3c3.9 0 6.7 2.7 6.7 6s-2.8 6-6.7 6H7V6Z" stroke="white" stroke-width="2.2" stroke-linejoin="round"/>
+            <path d="M7 6v12" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Drabs Studio</h1>
+          <p>Games • Apps • Automation</p>
+        </div>
+      </div>
+
+      <nav class="navlinks">
+        <a class="pill" href="#apps">Apps</a>
+        <a class="pill" href="#hire">Hire Me</a>
+        <a class="pill primary" href="mailto:YOUR_EMAIL_HERE?subject=App%20Build%20Request%20-%20Drabs%20Studio">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero" aria-label="Hero">
+      <div class="heroGrid">
+        <div>
+          <div class="kicker"><span class="dot"></span> Shipping clean, fast, polished experiences</div>
+          <h2>Drabs Studio</h2>
+          <p>
+            A small studio building addictive games, useful tools, and custom software.
+            Download my apps below — and if you need something built, I’ve got you.
+          </p>
+
+          <div class="ctaRow">
+            <a class="btn primary" href="#apps">
+              <!-- grid icon -->
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              View Apps & Games
+            </a>
+            <a class="btn" href="#hire">
+              <!-- spark icon -->
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2l1.6 5.4L19 9l-5.4 1.6L12 16l-1.6-5.4L5 9l5.4-1.6L12 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M19 14l.9 3.1L23 18l-3.1.9L19 22l-.9-3.1L15 18l3.1-.9L19 14Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              Need me to build you an app????
+            </a>
+          </div>
+
+          <div class="divider"></div>
+          <div class="smallNote">
+            Replace <b>YOUR_EMAIL_HERE</b> once, then you’re done. This page is built to host on GitHub Pages.
+          </div>
+        </div>
+
+        <aside class="heroCard" aria-label="Highlights">
+          <div class="miniStats">
+            <div class="stat">
+              <div class="big">Mobile-first</div>
+              <div class="small">Android apps & games that feel premium.</div>
+              <div class="tag">Performance + UI polish</div>
+            </div>
+            <div class="stat">
+              <div class="big">Fast iteration</div>
+              <div class="small">Ship updates quickly, based on real feedback.</div>
+              <div class="tag">MVP → V2</div>
+            </div>
+            <div class="stat">
+              <div class="big">Monetization ready</div>
+              <div class="small">Subscriptions, IAP, and clean paywalls.</div>
+              <div class="tag">Play Store friendly</div>
+            </div>
+            <div class="stat">
+              <div class="big">Automation</div>
+              <div class="small">Dashboards, reports, and workflow tools.</div>
+              <div class="tag">Save time</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="apps" class="section" aria-label="Apps and games">
+      <div class="sectionHeader">
+        <div>
+          <h3>Apps & Games</h3>
+          <p>Public Play Store links below. Some additional apps are in closed testing (invite-only).</p>
+        </div>
+        <span class="badge" title="Package IDs from your Play Console list">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M20 13l-7 7-11-11V2h7L20 13Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M7.5 7.5h.01" stroke="white" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          Live on Google Play
+        </span>
+      </div>
+
+      <div class="grid">
+        <!-- SteadyFocus -->
+        <article class="card">
+          <div class="cardTop">
+            <div class="appIconWrap" aria-hidden="true">
+              <img class="appIconImg" src="assets/steadyfocus.webp" alt="SteadyFocus app icon" />
+            </div>
+            <div>
+              <h4 class="appTitle">SteadyFocus</h4>
+              <div class="pkg">com.steadyfocus.app</div>
+            </div>
+          </div>
+          <p class="desc">Block distractions, stay locked-in, and protect your attention.</p>
+          <div class="cardActions">
+            <a class="linkBtn play" href="https://play.google.com/store/apps/details?id=com.steadyfocus.app" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 5l12 7-12 7V5Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              Google Play
+            </a>
+          </div>
+        </article>
+
+        <!-- BestFitnessPal -->
+        <article class="card">
+          <div class="cardTop">
+            <div class="appIconWrap" aria-hidden="true">
+              <img class="appIconImg" src="assets/bestfitnesspal.webp" alt="BestFitnessPal app icon" />
+            </div>
+            <div>
+              <h4 class="appTitle">BestFitnessPal</h4>
+              <div class="pkg">com.bestfitnesspal.app</div>
+            </div>
+          </div>
+          <p class="desc">Track calories and routines with a clean, no-nonsense flow.</p>
+          <div class="cardActions">
+            <a class="linkBtn play" href="https://play.google.com/store/apps/details?id=com.bestfitnesspal.app" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 5l12 7-12 7V5Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              Google Play
+            </a>
+          </div>
+        </article>
+
+        <!-- BlockBuster -->
+        <article class="card">
+          <div class="cardTop">
+            <div class="appIconWrap" aria-hidden="true">
+              <img class="appIconImg" src="assets/blockbuster.webp" alt="BlockBuster app icon" />
+            </div>
+            <div>
+              <h4 class="appTitle">BlockBuster</h4>
+              <div class="pkg">com.drabblockbuster.game</div>
+            </div>
+          </div>
+          <p class="desc">Quick-hit arcade fun — break blocks, chase highs, repeat.</p>
+          <div class="cardActions">
+            <a class="linkBtn play" href="https://play.google.com/store/apps/details?id=com.drabblockbuster.game" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 5l12 7-12 7V5Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              Google Play
+            </a>
+          </div>
+        </article>
+
+        <!-- EarnPulse -->
+        <article class="card">
+          <div class="cardTop">
+            <div class="appIconWrap" aria-hidden="true">
+              <img class="appIconImg" src="assets/earnpulse.webp" alt="EarnPulse app icon" />
+            </div>
+            <div>
+              <h4 class="appTitle">EarnPulse</h4>
+              <div class="pkg">com.earnpulse.app</div>
+            </div>
+          </div>
+          <p class="desc">Money tools that help you plan, track, and stay ahead.</p>
+          <div class="cardActions">
+            <a class="linkBtn play" href="https://play.google.com/store/apps/details?id=com.earnpulse.app" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 5l12 7-12 7V5Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              Google Play
+            </a>
+          </div>
+        </article>
+
+        <!-- HoverRace -->
+        <article class="card">
+          <div class="cardTop">
+            <div class="appIconWrap" aria-hidden="true">
+              <img class="appIconImg" src="assets/hoverrace.webp" alt="HoverRace app icon" />
+            </div>
+            <div>
+              <h4 class="appTitle">HoverRace</h4>
+              <div class="pkg">com.hoverrace.game</div>
+            </div>
+          </div>
+          <p class="desc">Fast top-down hover racing with tight handling and speed flow.</p>
+          <div class="cardActions">
+            <a class="linkBtn play" href="https://play.google.com/store/apps/details?id=com.hoverrace.game" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 5l12 7-12 7V5Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              Google Play
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <div class="callout">
+        <div>
+          <b style="color: var(--text);">Want access to closed testing apps?</b>
+          <div style="margin-top:4px;">Send me your Gmail and I’ll add you to the tester list + share the private link.</div>
+        </div>
+        <a class="linkBtn secondary"
+           href="mailto:YOUR_EMAIL_HERE?subject=Closed%20Testing%20Invite%20Request%20-%20Drabs%20Studio&body=Hi!%20Please%20add%20this%20Gmail%20to%20your%20closed%20testing%20list:%0A%0A(Gmail%20here)%0A%0AWhich%20app%20do%20you%20want%20to%20test%3F%0A">
+          Request Invite
+        </a>
+      </div>
+    </section>
+
+    <section id="hire" class="hire" aria-label="Hire section">
+      <div class="hireGrid">
+        <div>
+          <h3>Need me to build you an app????</h3>
+          <p>
+            I build modern Android apps (Compose), games, and internal tools —
+            with clean UI, strong performance, and a real launch plan.
+          </p>
+
+          <div class="bullet" aria-label="Services">
+            <span>
+              <i class="check" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17l-5-5" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </i>
+              <div><b>Android (Compose)</b> • MVP → production-ready</div>
+            </span>
+            <span>
+              <i class="check" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17l-5-5" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </i>
+              <div><b>Polished UI/UX</b> • smooth animations, strong layout, pro look</div>
+            </span>
+            <span>
+              <i class="check" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                  <path d="M20 6L9 17l-5-5" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </i>
+              <div><b>Monetization</b> • subscriptions/IAP + onboarding that converts</div>
+            </span>
+          </div>
+        </div>
+
+        <div>
+          <div class="section" style="margin:0; padding:16px;">
+            <div class="sectionHeader" style="margin-bottom:10px;">
+              <div>
+                <h3 style="margin:0; font-size:16px;">Contact</h3>
+                <p style="margin:0; font-size:12px;">This uses mailto so it works on GitHub Pages.</p>
+              </div>
+            </div>
+
+            <a class="btn primary" style="width:100%; margin-bottom:10px;"
+               href="mailto:YOUR_EMAIL_HERE?subject=App%20Build%20Request%20-%20Drabs%20Studio&body=What%20are%20you%20building%3F%0A%0APlatform%3A%20Android%20%2F%20Web%20%2F%20Other%0ABudget%3A%0ATimeline%3A%0AFeatures%3A%0A">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 6h16v12H4V6Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M4 7l8 6 8-6" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+              Email Me
+            </a>
+
+            <a class="btn" style="width:100%;"
+               href="#"
+               onclick="navigator.clipboard?.writeText('YOUR_EMAIL_HERE'); alert('Copied: YOUR_EMAIL_HERE'); return false;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 9h10v10H9V9Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              Copy Email
+            </a>
+
+            <div class="divider"></div>
+            <div class="smallNote">
+              Replace <b>YOUR_EMAIL_HERE</b> with your real email address. You can also add buttons for
+              <b>Discord</b>, <b>X</b>, or a booking link if you use one.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>© <span id="year"></span> Drabs Studio</div>
+      <div>Single-file landing page • Icons included locally</div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // smooth scroll for in-page anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener("click", (e) => {
+        const id = a.getAttribute("href");
+        if (!id || id === "#") return;
+        const el = document.querySelector(id);
+        if (!el) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        history.replaceState(null, "", id);
+      });
+    });
+  </script>
+</body>
+</html>
